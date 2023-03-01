@@ -1,0 +1,30 @@
+<h1>Treatments </h1>
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+<% if flash[:alert] %>
+  <div class="alert"><%= flash[:alert] %></div>
+<% end %>
+<%= link_to "Create New Treatment", new_hospital_treatment_path,:class=>"btn btn-secondary mx-5" %>
+<table class="table table-lg table-striped ml-4 mx-5 table-bordered" style="max-width: 70rem;">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @treatments.each do |treatment|%>
+      <tr class="align-middle">
+        <td><%=treatment.name %></td>
+        <td class="text-center"><%= link_to "Show", hospital_treatment_path(@hospital.id,treatment.id),:class=>"btn btn-outline-primary" %></td>
+        <td class="text-center"><%= link_to "Edit", edit_hospital_treatment_path(@hospital.id,treatment.id),:class=>"btn btn-outline-primary" %></td>
+        <td class="text-center"><%= link_to "Delete Treatment Item", hospital_treatment_path(@hospital.id,treatment.id), :class=>"btn btn-outline-primary", data: {
+        turbo_method: :delete,
+        turbo_confirm: "Are you sure?"
+      } %></td>
+      </tr>
+    </tr>
+  <% end %>
+</tbody>
+</table>
+<%= link_to "Back", hospitals_path, :class=>"btn btn-outline-primary mx-5"%>

@@ -1,0 +1,17 @@
+<h1> Create a new Treatment</h1>
+<%= form_for(@treatment, url: hospital_treatments_path) do |f| %>
+  <% if @treatment.errors.any? %>
+    <% @treatment.errors.full_messages.each do |message|%>
+      <h3><%= message %></h3>
+    <% end %>
+  <% end %>
+  <div class="form-group row col-md-6 px-5">
+    <div class="form-group">
+      <%= f.label :name , :class=>"col-form-label col-md-1"%>
+      <%= f.text_field :name, :class => 'col-md-1 form-control', :required => true %>
+    </div>
+    <div class="actions">
+      <%= f.submit :class => 'float-right btn btn-outline-primary'%>
+    </div>
+  </div>
+<% end %>

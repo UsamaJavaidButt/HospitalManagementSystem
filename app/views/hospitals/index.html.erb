@@ -1,0 +1,48 @@
+<h1>Hi,<%=current_user.first_name  if current_user%></h1>
+<h2>Welcome to Hospital Management System</h2>
+<hr/>
+<h1> Hospitals</h1>
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+<% if flash[:alert] %>
+  <div class="alert"><%= flash[:alert] %></div>
+<% end %>
+<% if current_user.Admin?%>
+  <%= link_to "Create New Hospital", new_hospital_path,:class=>"btn btn-secondary mx-5" %>
+<%end%>
+<table class="table table-lg table-striped ml-4 mx-5 table-bordered" style="max-width: 80rem;">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>City</th>
+      <th>Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @hospitals.each do |hospital|%>
+      <tr class="align-middle">
+        <td><%=hospital.name %></td>
+        <td><%=hospital.city %></td>
+        <td><%=hospital.address %></td>
+        <td><%if current_user.Admin?%></td>
+          <td class="text-center"><%= link_to "Show", hospital_path(hospital),:class=>"btn btn-outline-primary" %></td>
+          <td class="text-center"><%= link_to "Edit", edit_hospital_path(hospital),:class=>"btn btn-outline-primary" %></td>
+          <td class="text-center"><%= link_to "Delete Hospital Item", hospital_path(hospital) , :class=>"btn btn-outline-primary", data: {
+        turbo_method: :delete,
+        turbo_confirm: "Are you sure?"
+      } %></td>
+          <td><%end%></td>
+        <td><%if current_user.Admin? || current_user.Doctor?%></td>
+          <td class="text-center"><%= link_to "Treatments", hospital_treatments_path(hospital),:class=>"btn btn-outline-primary"%></td>
+          <td><%if current_user.Admin?%></td>
+            <td class="text-center"><%= link_to "Assign Doctors", hospital_doctors_path(hospital),:class=>"btn btn-outline-primary"%></td>
+            <td><%end%></td>
+          <td class="text-center"><%= link_to "Assign Treatment", hospital_assign_treatments_path(hospital),:class=>"btn btn-outline-primary"%></td>
+          <td><%end%></td>
+        <td class="text-center"><%= link_to "Appointments", hospital_appointments_path(hospital),:class=>"btn btn-outline-primary"%></td>
+      </tr>
+    </tr>
+  <% end %>
+</tbody>
+</table>
